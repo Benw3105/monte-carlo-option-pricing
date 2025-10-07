@@ -1,0 +1,47 @@
+import numpy as np 
+import matplotlib.pyplot as plt
+
+# Parameters
+S0 = 100  # Initial stock price
+K = 100   # Strike price
+r = 0.05  # Risk-free rate
+sigma = 0.2  # Volatility
+T = 1.0   # Time to maturity in years
+n_sims = 100000 # Number of simulations
+
+# 1. Simulate terminal stock prices
+Z = np.random.randn(n_sims)
+ST = S0 * np.exp((r - 0.5 * sigma**2) * T + sigma * np.sqrt(T) * Z)
+
+# 2. Compute option payoff
+payoffs = np.maximum(ST - K, 0)
+
+# 3. Discount back to present value
+price_mc = np.exp(-r*T) * np.mean(payoffs)
+
+# 4. Compare to Black-Scholes formula for sanity check
+from math import log, sqrt, exp
+from scipy.stats import norm
+
+d1 = (log(S0/K) + (r + 0.5*sigma**2)*T) / (sigma*sqrt(T))
+d2 = d1 - sigma*sqrt(T)
+price_bs = S0*norm.cdf(d1) - K*exp(-r*T)*norm.cdf(d2)
+
+print (F"Monte Carlo Price: {price_mc:.4f}")
+print (F"Black-Scholes Price: {price_bs:.4f}")
+
+# 5. Plot convergence
+prices = []
+for n in range (1000, n_sims+1, 1000):
+    ST_n = S0 * np.exp((r - 0.5 * sigma**2) * T + sigma * np.sqrt(T) * np.random.randn(n))
+    payoffs_n = np.maximum(ST_n - K, 0)
+    price_n = np.exp(-r*T) * np.mean(payoffs_n)
+    prices.append(price_n)
+
+plt.plot(range(1000, n_sims+1, 1000), prices)
+plt.axhline(y=price_bs, color='r', linestyle='--', label='Black-Scholes')
+plt.xlabel('Number of Simulations')
+plt.ylabel('Estimated Price')  
+plt.title('Convergence of Monte Carlo Option Pricing')
+plt.legend()
+plt.show()
