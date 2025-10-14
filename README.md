@@ -18,13 +18,19 @@ This project simulates the price of a **European call option** using Monte Carlo
 ## How to Run
 
 1. Install dependencies:  
+```bash
 pip install numpy scipy matplotlib
+```
 
 2. Run the notebook:
+```bash
 jupyter notebook option_pricer.ipynb
+```
 
 3. Or run the script:
+```bash
 python option_pricer.py
+```
 
 ---
 
