@@ -51,5 +51,4 @@ Black-Scholes Price: 10.45
 
 ## Author
 
-Ben — quantitative finance enthusiast with hands-on experience in option pricing, Monte Carlo simulation, and financial modeling. Interested in building practical, data-driven solutions for trading and risk analysis.
-
+Ben Whitehead
